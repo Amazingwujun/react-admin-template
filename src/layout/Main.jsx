@@ -4,14 +4,14 @@ import useUserStore from "../store/useUserStore.js";
 import {MenuFoldOutlined, MenuUnfoldOutlined} from "@ant-design/icons";
 import {Outlet} from "react-router-dom";
 import Header from "./Header.jsx";
-import SignInPage from "../pages/SigInPage.jsx";
+import SignInPage from "../pages/user-admin/SigInPage.jsx";
 
 
 function Main() {
     const updateCollapsed = useUserStore(t => t.updateCollapsed);
     const collapsed = useUserStore(t => t.collapsed);
-    const hasAuth = useUserStore(t => t.hasAuth);
-    if (!hasAuth) {
+    const authState = useUserStore(t => t.authState);
+    if (!authState) {
         return <SignInPage/>
     }
 

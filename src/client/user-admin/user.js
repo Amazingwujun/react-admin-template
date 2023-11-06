@@ -35,16 +35,12 @@ export function signIn(req) {
  *
  * @param req 请求对象
  * @param {string} req.name 用户名称
- * @param {string} token 令牌
  * @return {Promise}
  */
-export function page([req, token]) {
+export function page(req) {
     return client({
         url: '/user-admin/user/page',
         method: 'POST',
-        data: req,
-        headers: {
-            'x-token': token
-        }
+        data: req
     })
 }

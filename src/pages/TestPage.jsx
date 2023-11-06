@@ -1,5 +1,13 @@
+import {Card} from "antd";
+
 function TestPage(){
-    return <div>TestPage</div>
+    return (
+        <Card className='full-container' title='测试页面'>
+            <div>
+                Only for test
+            </div>
+        </Card>
+    )
 }
 
 

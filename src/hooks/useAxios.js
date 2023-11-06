@@ -13,7 +13,7 @@ import client from "../client/client.js";
  * @returns {{payload: Object, loading: boolean}}
  */
 function useAxios(request) {
-    const hasAuth = useUserStore(t => t.hasAuth);
+    const hasAuth = useUserStore(t => t.authState);
     const token = useUserStore(t => t.token);
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);

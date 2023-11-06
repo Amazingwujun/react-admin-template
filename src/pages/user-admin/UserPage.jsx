@@ -1,12 +1,11 @@
 import {Button, Card, Divider, Flex, Input, Space, Table} from "antd";
-import useUserStore from "../store/useUserStore.js";
-import {page} from "../client/user-admin/user.js";
+import useUserStore from "../../store/useUserStore.js";
+import {page} from "../../client/user-admin/user.js";
 import {useRequest} from "ahooks";
 import {useState} from "react";
-import {INVALID_TOKENS} from "../client/client.js";
+import {COMMON_ERR_HANDLE} from "../../client/client.js";
 import {useNavigate} from "react-router-dom";
-import repository from "../utils/repository.js";
-import {USER_INFO_KEY} from "../const/common.js";
+import {inputValueTrim} from "../../utils/common-utils.js";
 
 const columns = [
     {
@@ -67,30 +66,23 @@ const defaultPageParams = {
 }
 
 function UserPage() {
-    const [uname, setUname] = useState('');
-    const token = useUserStore(t => t.token);
-    const updateHasAuth = useUserStore(t => t.updateAuthState)
+    const [uname, setUname] = useState(null);
+    const updateAuthState = useUserStore(t => t.updateAuthState)
     const navigate = useNavigate();
 
     const {data, error, loading, run: runPage} = useRequest(page, {
-        defaultParams: [[defaultPageParams, token]],
+        defaultParams: [defaultPageParams],
         onSuccess: t => t?.list.map(e => e.key = e.id), // 处理 <li> key 的 warning
-        onError: err => {
-            const code = err?.code;
-            if (code && INVALID_TOKENS.has(code)) {
-                updateHasAuth(false);
-                repository.remove(USER_INFO_KEY);
-                navigate('/signIn');
-            }
-        }
+        onError: err => COMMON_ERR_HANDLE(err, navigate, updateAuthState)
     });
 
     return (
         <Card title='用户管理' className='full-container'>
             <Flex vertical>
                 <Space>
-                    <Input placeholder='用户名' onChange={e => setUname(e.target.value)}/>
-                    <Button type={"primary"} onClick={() => runPage([{...defaultPageParams, username: uname}, token])}>提交</Button>
+                    <Input placeholder='用户名' onChange={e => setUname(inputValueTrim(e))}/>
+                    <Button type={"primary"}
+                            onClick={() => runPage({...defaultPageParams, username: uname})}>提交</Button>
                 </Space>
                 <Divider/>
                 <Table
@@ -103,7 +95,10 @@ function UserPage() {
                         total: data?.total,
                         current: data?.pageNum,
                         size: 'small',
-                        showTotal: t => `共 ${t} 条记录`
+                        showTotal: t => `共 ${t} 条记录`,
+                        onChange: t => {
+                            runPage({...defaultPageParams, pageNum: t, username: uname})
+                        }
                     }}
                     dataSource={data?.list}
                 />

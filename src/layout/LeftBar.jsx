@@ -1,7 +1,7 @@
-import {AppstoreOutlined, MailOutlined, SettingOutlined, UserOutlined} from '@ant-design/icons';
-import {Menu} from 'antd';
+import {AppstoreOutlined, MailOutlined, SettingOutlined, ToolOutlined, UserOutlined} from '@ant-design/icons';
+import {Divider, Menu} from 'antd';
 import useUserStore from "../store/useUserStore.js";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 
 function getItem(label, key, icon, children, type) {
     return {
@@ -14,16 +14,25 @@ function getItem(label, key, icon, children, type) {
 }
 
 const items = [
-    getItem('用户中心', '/user', <UserOutlined/>, [
-        getItem('用户管理', '/user'),
+    getItem('用户中心', '/user-center', <UserOutlined/>, [
         getItem('租户管理', '/tenant'),
-        getItem('资源管理', '/resource')
+        getItem('用户管理', '/user'),
+        getItem('资源管理', '/resource'),
     ]),
+    {type: 'divider'},
+    getItem('测试页面', '/test', <ToolOutlined/>)
 ];
 
 function LeftBar() {
     const collapsed = useUserStore(t => t.collapsed);
     const navigate = useNavigate();
+    const {pathname} = useLocation();
+
+    console.log(`pathname: [${pathname}]`)
+    let key = pathname;
+    if (pathname === '/') {
+        key = '/user';
+    }
 
     const onClick = (e) => {
         navigate(e.key);
@@ -36,7 +45,7 @@ function LeftBar() {
                 maxWidth: 256,
             }}
             inlineCollapsed={collapsed}
-            defaultSelectedKeys={['/tenant']}
+            selectedKeys={[key]}
             mode="inline"
             items={items}
         />

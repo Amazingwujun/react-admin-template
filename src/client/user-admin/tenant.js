@@ -8,3 +8,11 @@ export function names(){
     })
 }
 
+export function page(req) {
+    return client({
+        url: '/user-admin/tenant/page',
+        method: 'POST',
+        data: req
+    });
+}
+

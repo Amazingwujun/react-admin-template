@@ -3,18 +3,17 @@ import useUserStore from "./store/useUserStore.js";
 import './App.css'
 import {USER_INFO_KEY} from "./const/common.js";
 import router from "./route/router.jsx";
+import repository from "./utils/repository.js";
 
 function App() {
     // 检查 local storage
-    let userInfoStr = sessionStorage.getItem(USER_INFO_KEY) || localStorage.getItem(USER_INFO_KEY);
+    let userInfoStr = repository.get(USER_INFO_KEY);
     if (userInfoStr) {
-        let {hasAuth, username, token} = JSON.parse(userInfoStr);
-        const updateAuth = useUserStore(t => t.updateAuthState);
-        const updateToken = useUserStore(t => t.updateToken);
+        let {authState, username} = JSON.parse(userInfoStr);
+        const updateAuthState = useUserStore(t => t.updateAuthState);
         const updateUsername = useUserStore(t => t.updateUsername);
 
-        updateAuth(hasAuth);
-        updateToken(token);
+        updateAuthState(authState);
         updateUsername(username);
     }
 

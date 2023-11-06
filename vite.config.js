@@ -7,7 +7,7 @@ export default defineConfig({
     server: {
         proxy: {
             '/user-admin': {
-                target: 'http://192.168.32.63',
+                target: 'https://lampblack.lewinsmarteye.com:61000',
                 changeOrigin: true
             }
         }

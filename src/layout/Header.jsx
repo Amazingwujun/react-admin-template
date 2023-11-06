@@ -3,6 +3,7 @@ import useUserStore from "../store/useUserStore.js";
 import {UserOutlined} from "@ant-design/icons";
 import logo from "../assets/vite.svg"
 import {USER_INFO_KEY} from "../const/common.js";
+import repository from "../utils/repository.js";
 
 const items = [
     {
@@ -19,7 +20,7 @@ function Header() {
             // 退出登入
             updateAuth(false);
             // 清理 localstorage
-            localStorage.removeItem(USER_INFO_KEY);
+            repository.remove(USER_INFO_KEY);
         }
     }
 
@@ -32,7 +33,7 @@ function Header() {
                     preview={false}
                     src={logo}
                 />
-                <span style={{fontSize: 25}}>User Admin</span>
+                <span style={{fontSize: 25}}>React Admin</span>
             </Space>
             <Space>
                 <Dropdown
