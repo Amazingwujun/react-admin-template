@@ -53,7 +53,7 @@ function LeftBar() {
         <Menu
             onClick={onClick}
             style={{
-                maxWidth: 256,
+                maxWidth: 210,
             }}
             inlineCollapsed={collapsed}
             selectedKeys={[key]}
