@@ -10,7 +10,7 @@ import dayjs from "dayjs";
 dayjs.locale('zh');
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-    <React.StrictMode>
+    // <React.StrictMode>
         <ConfigProvider
             theme={{
                 token: {
@@ -21,5 +21,5 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         >
             <App/>
         </ConfigProvider>
-    </React.StrictMode>,
+    // </React.StrictMode>,
 )

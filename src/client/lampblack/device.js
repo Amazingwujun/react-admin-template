@@ -15,3 +15,10 @@ export function messages(data) {
         data: data
     });
 }
+
+export function listForScreen() {
+    return client({
+        url: '/lampblack-portal/device/status/listForScreen',
+        method: "GET"
+    })
+}
