@@ -72,7 +72,6 @@ function UserPage() {
 
     const {data, error, loading, run: runPage} = useRequest(page, {
         defaultParams: [defaultPageParams],
-        onSuccess: t => t?.list.map(e => e.key = e.id), // 处理 <li> key 的 warning
         onError: err => COMMON_ERR_HANDLE(err, navigate, updateAuthState)
     });
 
@@ -90,6 +89,7 @@ function UserPage() {
                     loading={loading}
                     columns={columns}
                     bordered
+                    rowKey='id'
                     pagination={{
                         pageSize: data?.pageSize,
                         total: data?.total,

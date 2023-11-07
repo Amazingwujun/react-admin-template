@@ -1,4 +1,11 @@
-import {AppstoreOutlined, MailOutlined, SettingOutlined, ToolOutlined, UserOutlined} from '@ant-design/icons';
+import {
+    AppstoreOutlined,
+    MailOutlined,
+    ProfileOutlined,
+    SettingOutlined,
+    ToolOutlined,
+    UserOutlined
+} from '@ant-design/icons';
 import {Divider, Menu} from 'antd';
 import useUserStore from "../store/useUserStore.js";
 import {useLocation, useNavigate} from "react-router-dom";
@@ -14,10 +21,14 @@ function getItem(label, key, icon, children, type) {
 }
 
 const items = [
+    getItem('设备中心', '/device-center', <ProfileOutlined/>, [
+        getItem('设备列表', '/device'),
+    ]),
     getItem('用户中心', '/user-center', <UserOutlined/>, [
         getItem('租户管理', '/tenant'),
         getItem('用户管理', '/user'),
         getItem('资源管理', '/resource'),
+        getItem('审计日志', '/auditLog'),
     ]),
     {type: 'divider'},
     getItem('测试页面', '/test', <ToolOutlined/>)

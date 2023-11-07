@@ -9,6 +9,10 @@ export default defineConfig({
             '/user-admin': {
                 target: 'https://lampblack.lewinsmarteye.com:61000',
                 changeOrigin: true
+            },
+            '/lampblack-portal': {
+                target: 'https://lampblack.lewinsmarteye.com:61000',
+                changeOrigin: true
             }
         }
     }

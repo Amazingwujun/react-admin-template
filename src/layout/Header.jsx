@@ -1,7 +1,7 @@
 import {Avatar, Button, Dropdown, Flex, Image, Space} from "antd";
 import useUserStore from "../store/useUserStore.js";
 import {UserOutlined} from "@ant-design/icons";
-import logo from "../assets/vite.svg"
+import logo from "../assets/react.svg"
 import {USER_INFO_KEY} from "../const/common.js";
 import repository from "../utils/repository.js";
 

@@ -105,7 +105,7 @@ function ResourcePage() {
                        pagination={{
                            position: ['none']
                        }}
-                       scroll={{y: 700, x: 1500}}
+                       scroll={{y: 650, x: 1500}}
                        size='small'
                        columns={columns} dataSource={data}/>
             </Flex>

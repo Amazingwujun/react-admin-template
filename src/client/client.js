@@ -10,7 +10,10 @@ export const INVALID_TOKENS = new Set([
     '80000011'
 ])
 
-export function COMMON_ERR_HANDLE(err, navigate, updateAuthState){
+/**
+ * 通用错误处理
+ */
+export function COMMON_ERR_HANDLE(err, navigate, updateAuthState) {
     if (err?.code && INVALID_TOKENS.has(err.code)) {
         repository.remove(USER_INFO_KEY);
         updateAuthState(false);
