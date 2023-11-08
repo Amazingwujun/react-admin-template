@@ -98,7 +98,7 @@ const columns = [
 
 const defaultMessagesParams = {
     needPayload: true,
-    pageSize: 100
+    pageSize: 10
 }
 
 const DATE_TIME_FORMATTER = 'YYYY-MM-DD HH:mm:ss';
@@ -152,10 +152,13 @@ function DeviceDataPage() {
     }
 
     const onScrollEvent = (event) => {
-        if (event.target.scrollTop === (event.target.scrollHeight - event.target.clientHeight)) {
+        const scrollTop = event.target.scrollTop;
+        const clientHeight = event.target.clientHeight;
+        const scrollHeight = event.target.scrollHeight;
+        if (scrollTop + clientHeight + 1 >= scrollHeight) {
             // 总数
             let len = dataArr.length;
-            if (len >= total) {
+            if (len >= total && len !== 0) {
                 message.warning(`当前时间段数据已全部加载！`);
                 return
             }
@@ -174,7 +177,12 @@ function DeviceDataPage() {
         <Card className='full-container' title={`${location.state} / ${deviceMn}`}>
             <Flex vertical>
                 <Flex justify='space-between'>
-                    <span>数据加载进度: <span style={{fontSize: 18, fontWeight: "bold", color: '#1677ff'}}>{dataArr?.length}</span> / <span style={{fontSize: 20, fontWeight: "bold", color: '#1677ff'}}>{total || 0}</span></span>
+                    <span>
+                        数据加载进度:
+                        <span style={{fontSize: 18, fontWeight: "bold", color: '#1677ff'}}>{dataArr?.length}</span>
+                        /
+                        <span style={{fontSize: 20, fontWeight: "bold", color: '#1677ff'}}>{total || 0}</span>
+                    </span>
                     <Space>
                         <DatePicker.RangePicker showTime
                                                 defaultValue={[now.subtract(7, 'day'), now]}
@@ -195,7 +203,7 @@ function DeviceDataPage() {
                             pageSize: dataArr?.length
                         }}
                         dataSource={dataArr}
-                        scroll={{y: 550}}
+                        scroll={{y: 200}}
                         expandable={{
                             expandedRowRender: record => {
                                 return (
