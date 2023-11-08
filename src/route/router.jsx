@@ -8,7 +8,6 @@ import ResourcePage from "../pages/user-admin/ResourcePage.jsx";
 import AuditLogPage from "../pages/user-admin/AuditLogPage.jsx";
 import DevicePage from "../pages/lampblack/DevicePage.jsx";
 import DeviceDataPage from "../pages/lampblack/DeviceDataPage.jsx";
-import DeviceMap from "../pages/lampblack/DeviceMapPage.jsx";
 import DeviceMapPage from "../pages/lampblack/DeviceMapPage.jsx";
 
 const router = [
@@ -19,35 +18,45 @@ const router = [
         children: [
             {
                 index: true,
-                element: <UserPage/>
-            },
-            {
-                path: '/user',
-                element: <UserPage/>
-            },
-            {
-                path: '/tenant',
-                element: <TenantPage/>
-            },
-            {
-              path: '/resource',
-              element: <ResourcePage/>
-            },
-            {
-              path: '/auditLog',
-              element: <AuditLogPage/>
+                element: <DeviceMapPage/>
             },
             {
                 path: '/device',
-                element: <DevicePage/>
+                children: [
+                    {
+                        path: '/device/info',
+                        element: <DevicePage/>
+                    },
+                    {
+                        path: '/device/:deviceMn',
+                        element: <DeviceDataPage/>
+                    },
+                    {
+                        path: '/device/map',
+                        element: <DeviceMapPage/>
+                    },
+                ]
             },
             {
-                path: '/device/:deviceMn',
-                element: <DeviceDataPage/>
-            },
-            {
-                path: '/device/map',
-                element: <DeviceMapPage/>
+                path: '/admin',
+                children: [
+                    {
+                        path: '/admin/user',
+                        element: <UserPage/>
+                    },
+                    {
+                        path: '/admin/tenant',
+                        element: <TenantPage/>
+                    },
+                    {
+                        path: '/admin/resource',
+                        element: <ResourcePage/>
+                    },
+                    {
+                        path: '/admin/auditLog',
+                        element: <AuditLogPage/>
+                    }
+                ]
             },
             {
                 path: '/test',
