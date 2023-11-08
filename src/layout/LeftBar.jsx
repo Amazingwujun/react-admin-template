@@ -23,6 +23,7 @@ function getItem(label, key, icon, children, type) {
 const items = [
     getItem('设备中心', '/device-center', <ProfileOutlined/>, [
         getItem('设备列表', '/device'),
+        getItem('实时地图', '/device/map'),
     ]),
     getItem('用户中心', '/user-center', <UserOutlined/>, [
         getItem('租户管理', '/tenant'),

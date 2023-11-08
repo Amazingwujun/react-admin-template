@@ -8,6 +8,8 @@ import ResourcePage from "../pages/user-admin/ResourcePage.jsx";
 import AuditLogPage from "../pages/user-admin/AuditLogPage.jsx";
 import DevicePage from "../pages/lampblack/DevicePage.jsx";
 import DeviceDataPage from "../pages/lampblack/DeviceDataPage.jsx";
+import DeviceMap from "../pages/lampblack/DeviceMapPage.jsx";
+import DeviceMapPage from "../pages/lampblack/DeviceMapPage.jsx";
 
 const router = [
     {
@@ -42,6 +44,10 @@ const router = [
             {
                 path: '/device/:deviceMn',
                 element: <DeviceDataPage/>
+            },
+            {
+                path: '/device/map',
+                element: <DeviceMapPage/>
             },
             {
                 path: '/test',
