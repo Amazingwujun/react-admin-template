@@ -3,7 +3,7 @@ import useUserStore from "../../store/useUserStore.js";
 import {useRequest} from "ahooks";
 import {COMMON_ERR_HANDLE} from "../../client/client.js";
 import {Button, Card, DatePicker, Divider, Flex, message, Space, Table, Tag, Typography} from "antd";
-import React, {useRef, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import dayjs from "dayjs";
 import {messages as deviceMessages} from "../../client/lampblack/device.js";
 import {SearchOutlined} from "@ant-design/icons";
@@ -98,12 +98,13 @@ const columns = [
 
 const defaultMessagesParams = {
     needPayload: true,
-    pageSize: 10
+    pageSize: 50
 }
 
 const DATE_TIME_FORMATTER = 'YYYY-MM-DD HH:mm:ss';
 
 function DeviceDataPage() {
+    const cardRef = useRef();
     const scrollElement = useRef(null);
     const navigate = useNavigate();
     const location = useLocation();
@@ -112,10 +113,17 @@ function DeviceDataPage() {
     const [now] = useState(dayjs())
     const [total, setTotal] = useState(null);
     const [dataArr, setDataArr] = useState([])
+    const [scrolly, setScrolly] = useState();
     const [datetimeRange, setDatetimeRange] = useState({
         startAt: now.subtract(7, 'day').format(DATE_TIME_FORMATTER),
         endAt: now.format(DATE_TIME_FORMATTER)
     });
+    useEffect(() => {
+        //  todo 动态调整 table scroll y 的逻辑不完善
+        const ch = cardRef.current.offsetHeight;
+        const chh = cardRef.current.children[0].offsetHeight;
+        setScrolly(ch - chh - 180)
+    }, []);
 
     const {loading, run} = useRequest(deviceMessages, {
         defaultParams: [{
@@ -159,7 +167,6 @@ function DeviceDataPage() {
             // 总数
             let len = dataArr.length;
             if (len >= total && len !== 0) {
-                message.warning(`当前时间段数据已全部加载！`);
                 return
             }
             // 继续获取数据
@@ -174,15 +181,15 @@ function DeviceDataPage() {
     }
 
     return (
-        <Card className='full-container' title={`${location.state} / ${deviceMn}`}>
+        <Card ref={cardRef} className='full-container' title={`${location.state} / ${deviceMn}`}>
             <Flex vertical>
                 <Flex justify='space-between'>
-                    <span>
-                        数据加载进度:
+                    <Space align='center'>
+                        <span style={{fontSize: 18}}> 数据加载进度: </span>
                         <span style={{fontSize: 18, fontWeight: "bold", color: '#1677ff'}}>{dataArr?.length}</span>
-                        /
+                        <span style={{fontWeight: "bold"}}>/</span>
                         <span style={{fontSize: 20, fontWeight: "bold", color: '#1677ff'}}>{total || 0}</span>
-                    </span>
+                    </Space>
                     <Space>
                         <DatePicker.RangePicker showTime
                                                 defaultValue={[now.subtract(7, 'day'), now]}
@@ -203,7 +210,7 @@ function DeviceDataPage() {
                             pageSize: dataArr?.length
                         }}
                         dataSource={dataArr}
-                        scroll={{y: 200}}
+                        scroll={{y: scrolly}}
                         expandable={{
                             expandedRowRender: record => {
                                 return (
