@@ -2,11 +2,12 @@ import {useLocation, useNavigate, useParams} from "react-router-dom";
 import useUserStore from "../../store/useUserStore.js";
 import {useRequest} from "ahooks";
 import {COMMON_ERR_HANDLE} from "../../client/client.js";
-import {Button, Card, DatePicker, Divider, Flex, message, Space, Table, Tag, Typography} from "antd";
+import {Button, Card, DatePicker, Space, Table, Tag, Typography} from "antd";
 import React, {useEffect, useRef, useState} from "react";
 import dayjs from "dayjs";
 import {messages as deviceMessages} from "../../client/lampblack/device.js";
 import {SearchOutlined} from "@ant-design/icons";
+import CardX from "../../components/CardX.jsx";
 
 
 function CustomTag({state}) {
@@ -104,7 +105,7 @@ const defaultMessagesParams = {
 const DATE_TIME_FORMATTER = 'YYYY-MM-DD HH:mm:ss';
 
 function DeviceDataPage() {
-    const cardRef = useRef();
+    const tableRef = useRef();
     const scrollElement = useRef(null);
     const navigate = useNavigate();
     const location = useLocation();
@@ -119,10 +120,10 @@ function DeviceDataPage() {
         endAt: now.format(DATE_TIME_FORMATTER)
     });
     useEffect(() => {
-        //  todo 动态调整 table scroll y 的逻辑不完善
-        const ch = cardRef.current.offsetHeight;
-        const chh = cardRef.current.children[0].offsetHeight;
-        setScrolly(ch - chh - 180)
+        const doc = scrollElement.current;
+        const tHeight = doc.offsetHeight;
+        const thHeight = doc.getElementsByClassName("ant-table-thead")[0].offsetHeight
+        setScrolly(tHeight - thHeight - 5)
     }, []);
 
     const {loading, run} = useRequest(deviceMessages, {
@@ -181,52 +182,49 @@ function DeviceDataPage() {
     }
 
     return (
-        <Card ref={cardRef} className='full-container' title={`${location.state} / ${deviceMn}`}>
-            <Flex vertical>
-                <Flex justify='space-between'>
-                    <Space align='center'>
-                        <span style={{fontSize: 18}}> 数据加载进度: </span>
-                        <span style={{fontSize: 18, fontWeight: "bold", color: '#1677ff'}}>{dataArr?.length}</span>
-                        <span style={{fontWeight: "bold"}}>/</span>
-                        <span style={{fontSize: 20, fontWeight: "bold", color: '#1677ff'}}>{total || 0}</span>
-                    </Space>
-                    <Space>
-                        <DatePicker.RangePicker showTime
-                                                defaultValue={[now.subtract(7, 'day'), now]}
-                                                onChange={onRangePickerChange}/>
-                        <Button icon={<SearchOutlined/>} type="primary" onClick={search}>搜索</Button>
-                    </Space>
-                </Flex>
-                <Divider/>
-                <div ref={scrollElement} onScrollCapture={onScrollEvent}>
-                    <Table
-                        size='small'
-                        loading={loading}
-                        columns={columns}
-                        bordered
-                        rowKey='receivedAt'
-                        pagination={{
-                            position: ['none'],
-                            pageSize: dataArr?.length
-                        }}
-                        dataSource={dataArr}
-                        scroll={{y: scrolly}}
-                        expandable={{
-                            expandedRowRender: record => {
-                                return (
-                                    <Card title='原始报文'>
-                                        <Typography.Text style={{fontSize: 20}} code copyable={record.payload}>
-                                            {record.payload || '空'}
-                                        </Typography.Text>
-                                    </Card>
-                                )
-                            },
-                            rowExpandable: record => true
-                        }}
-                    />
-                </div>
-            </Flex>
-        </Card>
+        <CardX title={`${location.state} / ${deviceMn}`}>
+            <div style={{display: "flex", justifyContent: 'space-between', height: 56}}>
+                <Space align='center'>
+                    <span style={{fontSize: 18}}> 数据加载进度: </span>
+                    <span style={{fontSize: 18, fontWeight: "bold", color: '#1677ff'}}>{dataArr?.length}</span>
+                    <span style={{fontWeight: "bold"}}>/</span>
+                    <span style={{fontSize: 20, fontWeight: "bold", color: '#1677ff'}}>{total || 0}</span>
+                </Space>
+                <Space>
+                    <DatePicker.RangePicker showTime
+                                            defaultValue={[now.subtract(7, 'day'), now]}
+                                            onChange={onRangePickerChange}/>
+                    <Button icon={<SearchOutlined/>} type="primary" onClick={search}>搜索</Button>
+                </Space>
+            </div>
+            <div ref={scrollElement} onScrollCapture={onScrollEvent} style={{flex: "auto"}}>
+                <Table
+                    size='small'
+                    loading={loading}
+                    columns={columns}
+                    bordered
+                    rowKey='receivedAt'
+                    pagination={{
+                        position: ['none'],
+                        pageSize: dataArr?.length
+                    }}
+                    dataSource={dataArr}
+                    scroll={{y: scrolly}}
+                    expandable={{
+                        expandedRowRender: record => {
+                            return (
+                                <Card title='原始报文'>
+                                    <Typography.Text style={{fontSize: 20}} code copyable={record.payload}>
+                                        {record.payload || '空'}
+                                    </Typography.Text>
+                                </Card>
+                            )
+                        },
+                        rowExpandable: record => true
+                    }}
+                />
+            </div>
+        </CardX>
     )
 }
 
