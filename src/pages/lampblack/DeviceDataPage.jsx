@@ -105,7 +105,6 @@ const defaultMessagesParams = {
 const DATE_TIME_FORMATTER = 'YYYY-MM-DD HH:mm:ss';
 
 function DeviceDataPage() {
-    const tableRef = useRef();
     const scrollElement = useRef(null);
     const navigate = useNavigate();
     const location = useLocation();
@@ -115,16 +114,18 @@ function DeviceDataPage() {
     const [total, setTotal] = useState(null);
     const [dataArr, setDataArr] = useState([])
     const [scrolly, setScrolly] = useState();
+    const [tableHeaderHeight, setTableHeaderHeight] = useState();
     const [datetimeRange, setDatetimeRange] = useState({
         startAt: now.subtract(7, 'day').format(DATE_TIME_FORMATTER),
         endAt: now.format(DATE_TIME_FORMATTER)
     });
     useEffect(() => {
         const doc = scrollElement.current;
-        const tHeight = doc.offsetHeight;
-        const thHeight = doc.getElementsByClassName("ant-table-thead")[0].offsetHeight
-        setScrolly(tHeight - thHeight - 5)
-    }, []);
+        const tHeight = doc.clientHeight;
+        const thHeight = doc.getElementsByClassName("ant-table-thead")[0].clientHeight
+        setTableHeaderHeight(thHeight);
+        setScrolly(tHeight - thHeight)
+    }, [tableHeaderHeight]);
 
     const {loading, run} = useRequest(deviceMessages, {
         defaultParams: [{
