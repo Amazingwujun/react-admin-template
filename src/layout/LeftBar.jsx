@@ -1,4 +1,4 @@
-import {ProfileOutlined, ToolOutlined, UserOutlined} from '@ant-design/icons';
+import {ProfileOutlined, ToolOutlined, UserOutlined, WindowsOutlined} from '@ant-design/icons';
 import {Menu} from 'antd';
 import useUserStore from "../store/useUserStore.js";
 import {useLocation, useNavigate} from "react-router-dom";
@@ -18,6 +18,7 @@ const items = [
         getItem('设备列表', '/device/info'),
         getItem('实时地图', '/device/map'),
     ]),
+    getItem('餐厅', '/restaurant/info', <WindowsOutlined/>),
     getItem('用户中心', '/user-center', <UserOutlined/>, [
         getItem('租户管理', '/admin/tenant'),
         getItem('用户管理', '/admin/user'),

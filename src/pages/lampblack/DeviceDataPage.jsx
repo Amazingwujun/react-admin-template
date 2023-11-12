@@ -3,7 +3,7 @@ import useUserStore from "../../store/useUserStore.js";
 import {useRequest} from "ahooks";
 import {COMMON_ERR_HANDLE} from "../../client/client.js";
 import {Button, Card, DatePicker, Space, Table, Tag, Typography} from "antd";
-import React, {useEffect, useRef, useState} from "react";
+import React, {useLayoutEffect, useRef, useState} from "react";
 import dayjs from "dayjs";
 import {messages as deviceMessages} from "../../client/lampblack/device.js";
 import {SearchOutlined} from "@ant-design/icons";
@@ -119,12 +119,12 @@ function DeviceDataPage() {
         startAt: now.subtract(7, 'day').format(DATE_TIME_FORMATTER),
         endAt: now.format(DATE_TIME_FORMATTER)
     });
-    useEffect(() => {
+    useLayoutEffect(() => {
         const doc = scrollElement.current;
         const tHeight = doc.clientHeight;
-        const thHeight = doc.getElementsByClassName("ant-table-thead")[0].clientHeight
+        let thHeight = doc.getElementsByClassName("ant-table-thead")[0].clientHeight
         setTableHeaderHeight(thHeight);
-        setScrolly(tHeight - thHeight)
+        setScrolly(tHeight - thHeight - 50)
     }, [tableHeaderHeight]);
 
     const {loading, run} = useRequest(deviceMessages, {
@@ -198,7 +198,7 @@ function DeviceDataPage() {
                     <Button icon={<SearchOutlined/>} type="primary" onClick={search}>搜索</Button>
                 </Space>
             </div>
-            <div ref={scrollElement} onScrollCapture={onScrollEvent} style={{flex: "auto"}}>
+            <div ref={scrollElement} onScrollCapture={onScrollEvent} style={{flex: "auto", minHeight: 0}}>
                 <Table
                     size='small'
                     loading={loading}

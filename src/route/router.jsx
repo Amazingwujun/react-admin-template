@@ -9,6 +9,7 @@ import AuditLogPage from "../pages/user-admin/AuditLogPage.jsx";
 import DevicePage from "../pages/lampblack/DevicePage.jsx";
 import DeviceDataPage from "../pages/lampblack/DeviceDataPage.jsx";
 import DeviceMapPage from "../pages/lampblack/DeviceMapPage.jsx";
+import RestaurantPage from "../pages/lampblack/RestaurantPage.jsx";
 
 const router = [
     {
@@ -36,6 +37,10 @@ const router = [
                         element: <DeviceMapPage/>
                     },
                 ]
+            },
+            {
+                path: '/restaurant/info',
+                element: <RestaurantPage/>
             },
             {
                 path: '/admin',
