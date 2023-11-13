@@ -1,4 +1,4 @@
-import {Badge, Button, Input, Select, Space} from "antd";
+import {Badge, Button, Input, message, Select, Space} from "antd";
 import {useWebSocket} from "ahooks";
 import {useLayoutEffect, useRef, useState} from "react";
 import CardX from "../../components/CardX.jsx";
@@ -73,14 +73,14 @@ function DebugLogPage() {
         `${prefix}${url}?x-token=${token}`, {
             manual: true,
             onOpen: () => {
-                setMessages(messages.concat(`'<span style="color: lawngreen">'成功连接至 ${prefix}${url}'</span>'\r\n`));
-                ref.current.scrollTop = ref.current.scrollHeight;
+                message.success("连接成功")
             },
             onMessage: message => {
                 setMessages(messages.concat(message.data))
             },
             onClose: () => {
-                setMessages(messages.concat(`与 ${prefix}${url} 的连接被断开 \r\n`));
+                message.warning("连接已断开")
+                setMessages(messages.concat(`连接已断开 \r\n`));
                 ref.current.scrollTop = ref.current.scrollHeight;
             }
         }
@@ -90,7 +90,6 @@ function DebugLogPage() {
         const scrollTop = event.target.scrollTop;
         const clientHeight = event.target.clientHeight;
         const scrollHeight = event.target.scrollHeight;
-        console.log('scroll')
         if (scrollTop + clientHeight + 1 >= scrollHeight) {
             setAutoScrollToBottom(true);
         } else {
@@ -121,7 +120,7 @@ function DebugLogPage() {
     return (
         <CardX title='应用日志' extra={actions()}>
             <div ref={ref} onScrollCapture={onScrollEvent} style={{flex: "auto", margin: 0, padding: 0}}>
-                <textarea className='scroll-perf' value={messages} style={ConsoleStyle} readOnly/>
+                <textarea value={messages} style={ConsoleStyle} readOnly/>
             </div>
         </CardX>
     )
