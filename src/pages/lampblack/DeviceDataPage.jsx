@@ -3,11 +3,12 @@ import useUserStore from "../../store/useUserStore.js";
 import {useRequest} from "ahooks";
 import {COMMON_ERR_HANDLE} from "../../client/client.js";
 import {Button, Card, DatePicker, Space, Table, Tag, Typography} from "antd";
-import React, {useEffect, useRef, useState} from "react";
+import React, {useRef, useState} from "react";
 import dayjs from "dayjs";
 import {messages as deviceMessages} from "../../client/lampblack/device.js";
 import {SearchOutlined} from "@ant-design/icons";
 import CardX from "../../components/CardX.jsx";
+import useTableScroll from "../../hooks/useTableScroll.js";
 
 
 function CustomTag({state}) {
@@ -113,19 +114,11 @@ function DeviceDataPage() {
     const [now] = useState(dayjs())
     const [total, setTotal] = useState(null);
     const [dataArr, setDataArr] = useState([])
-    const [scrolly, setScrolly] = useState();
-    const [tableHeaderHeight, setTableHeaderHeight] = useState();
     const [datetimeRange, setDatetimeRange] = useState({
         startAt: now.subtract(7, 'day').format(DATE_TIME_FORMATTER),
         endAt: now.format(DATE_TIME_FORMATTER)
     });
-    useEffect(() => {
-        const doc = scrollElement.current;
-        const tHeight = doc.clientHeight;
-        const thHeight = doc.getElementsByClassName("ant-table-thead")[0].clientHeight
-        setTableHeaderHeight(thHeight);
-        setScrolly(tHeight - thHeight)
-    }, [tableHeaderHeight]);
+    const {y} = useTableScroll(scrollElement);
 
     const {loading, run} = useRequest(deviceMessages, {
         defaultParams: [{
@@ -210,7 +203,7 @@ function DeviceDataPage() {
                         pageSize: dataArr?.length
                     }}
                     dataSource={dataArr}
-                    scroll={{y: scrolly}}
+                    scroll={{y: y}}
                     expandable={{
                         expandedRowRender: record => {
                             return (

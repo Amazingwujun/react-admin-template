@@ -10,6 +10,8 @@ import DevicePage from "../pages/lampblack/DevicePage.jsx";
 import DeviceDataPage from "../pages/lampblack/DeviceDataPage.jsx";
 import DeviceMapPage from "../pages/lampblack/DeviceMapPage.jsx";
 import DebugLogPage from "../pages/user-admin/DebugLogPage.jsx";
+import DeptPage from "../pages/user-admin/DeptPage.jsx";
+import RolePage from "../pages/user-admin/RolePage.jsx";
 
 const router = [
     {
@@ -46,8 +48,16 @@ const router = [
                         element: <UserPage/>
                     },
                     {
+                        path: '/admin/role',
+                        element: <RolePage/>
+                    },
+                    {
                         path: '/admin/tenant',
                         element: <TenantPage/>
+                    },
+                    {
+                        path: '/admin/dept',
+                        element: <DeptPage/>
                     },
                     {
                         path: '/admin/resource',

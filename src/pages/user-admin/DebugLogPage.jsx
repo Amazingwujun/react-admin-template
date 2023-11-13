@@ -24,19 +24,6 @@ const ReadyState = {
     Closed: 3,
 }
 
-function stateStr(readyState) {
-    switch (readyState) {
-        case ReadyState.Connecting:
-            return '连接中...'
-        case ReadyState.Open:
-            return '断开连接'
-        case ReadyState.Closing:
-            return '关闭中...'
-        case ReadyState.Closed:
-            return '发起连接'
-    }
-}
-
 function statusColor(readyState) {
     switch (readyState) {
         case ReadyState.Connecting:

@@ -1,10 +1,14 @@
-import {Button, Card, Flex, Space, Table} from "antd";
+import {Button, Space, Table} from "antd";
 import {useRequest} from "ahooks";
 import {selfTree} from "../../client/user-admin/resource.js";
 import {COMMON_ERR_HANDLE} from "../../client/client.js";
 import {useNavigate} from "react-router-dom";
 import useUserStore from "../../store/useUserStore.js";
 import {SearchOutlined} from "@ant-design/icons";
+import {recursiveRemoveEmptyChildren} from "../../utils/common-utils.js";
+import useTableScroll from "../../hooks/useTableScroll.js";
+import {useRef} from "react";
+import CardX from "../../components/CardX.jsx";
 
 const columns = [
     {
@@ -73,43 +77,37 @@ const columns = [
     }
 ]
 
-function recursiveRemoveEmptyChildren(arr = []) {
-    for (let i = 0; i < arr?.length; i++) {
-        let el = arr[i];
-        if (el.children?.length > 0) {
-            recursiveRemoveEmptyChildren(el.children);
-        } else {
-            el.children = null;
-        }
-    }
-}
 
 function ResourcePage() {
+    const tableRef = useRef();
     const navigate = useNavigate();
     const updateAuthState = useUserStore(t => t.updateAuthState);
     const {data, loading, refresh} = useRequest(selfTree, {
         onError: e => COMMON_ERR_HANDLE(e, navigate, updateAuthState),
     })
+    const {y} = useTableScroll(tableRef);
     recursiveRemoveEmptyChildren(data);
 
     return (
-        <Card className='full-container' title='资源管理' bordered>
-            <Flex vertical>
-                <Flex style={{marginBottom: 10}}>
+        <CardX title='资源管理'>
+            <div style={{marginBottom: 10}}>
+                <Space>
                     <Button icon={<SearchOutlined/>} type='primary' onClick={refresh}>刷新</Button>
-                </Flex>
-                <Table className='full-container'
-                       loading={loading}
-                       bordered
-                       rowKey='id'
-                       pagination={{
-                           position: ['none']
-                       }}
-                       scroll={{y: 650, x: 1500}}
-                       size='small'
-                       columns={columns} dataSource={data}/>
-            </Flex>
-        </Card>
+                </Space>
+            </div>
+            <div ref={tableRef} style={{flex: "auto"}}>
+                <Table
+                    loading={loading}
+                    bordered
+                    rowKey='id'
+                    pagination={{
+                        position: ['none']
+                    }}
+                    scroll={{y: y}}
+                    size='small'
+                    columns={columns} dataSource={data}/>
+            </div>
+        </CardX>
     );
 }
 

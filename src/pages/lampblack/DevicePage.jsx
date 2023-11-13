@@ -1,10 +1,12 @@
 import {Button, Card, Space, Table} from "antd";
-import React, {useCallback} from "react";
+import React, {useCallback, useRef} from "react";
 import {useNavigate} from "react-router-dom";
 import useUserStore from "../../store/useUserStore.js";
 import {useRequest} from "ahooks";
 import {page} from "../../client/lampblack/device.js";
 import {COMMON_ERR_HANDLE} from "../../client/client.js";
+import useTableScroll from "../../hooks/useTableScroll.js";
+import CardX from "../../components/CardX.jsx";
 
 let onClick;
 
@@ -71,7 +73,8 @@ const columns = [
         render: (text, record) => {
             return (
                 <Space>
-                    <Button type='primary' size='small' onClick={() => onClick(record.mn, record.restaurantName)}>数据</Button>
+                    <Button type='primary' size='small'
+                            onClick={() => onClick(record.mn, record.restaurantName)}>数据</Button>
                 </Space>
             )
         }
@@ -87,7 +90,7 @@ function DevicePage() {
     const updateAuthState = useUserStore(t => t.updateAuthState);
     onClick = useCallback((mn, rn) => (
         navigate(`/device/${mn}`, {state: rn})
-    ),[])
+    ), [])
 
     const {data, loading, run} = useRequest(page, {
         defaultParams: [defaultPageParams],
@@ -103,7 +106,7 @@ function DevicePage() {
                 columns={columns}
                 bordered
                 rowKey='mn'
-                scroll={{y: 650, x: 1200}}
+                scroll={{x: 1200}}
                 pagination={{
                     pageSize: data?.pageSize,
                     total: data?.total,
