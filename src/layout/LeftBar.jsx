@@ -23,6 +23,7 @@ const items = [
         getItem('用户管理', '/admin/user'),
         getItem('资源管理', '/admin/resource'),
         getItem('审计日志', '/admin/auditLog'),
+        getItem('应用日志', '/admin/debugLog'),
     ]),
     {type: 'divider'},
     getItem('测试页面', '/test', <ToolOutlined/>)
