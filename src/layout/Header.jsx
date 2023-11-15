@@ -1,4 +1,4 @@
-import {Avatar, Button, Dropdown, Flex, Image, Space} from "antd";
+import {Avatar, Dropdown, Flex, Image, Space} from "antd";
 import useUserStore from "../store/useUserStore.js";
 import {UserOutlined} from "@ant-design/icons";
 import logo from "../assets/react.svg"
@@ -38,8 +38,7 @@ function Header() {
             <Space>
                 <Dropdown
                     menu={{items, onClick}}
-                    trigger={["click"]}
-
+                    trigger={["hover"]}
                 >
                     <Avatar shape="circle" style={{cursor: "pointer"}} icon={<UserOutlined/>}/>
                 </Dropdown>

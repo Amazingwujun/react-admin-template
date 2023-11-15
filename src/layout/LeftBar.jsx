@@ -21,9 +21,12 @@ const items = [
     getItem('餐厅', '/restaurant/info', <WindowsOutlined/>),
     getItem('用户中心', '/user-center', <UserOutlined/>, [
         getItem('租户管理', '/admin/tenant'),
+        getItem('部门管理', '/admin/dept'),
         getItem('用户管理', '/admin/user'),
+        getItem('角色管理', '/admin/role'),
         getItem('资源管理', '/admin/resource'),
         getItem('审计日志', '/admin/auditLog'),
+        getItem('应用日志', '/admin/debugLog'),
     ]),
     {type: 'divider'},
     getItem('测试页面', '/test', <ToolOutlined/>)
