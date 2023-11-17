@@ -18,3 +18,7 @@
 .global-float-btn:hover {
     opacity: 1;
 }
+
+.general-font {
+    font-family: 'Cascadia Mono', serif;
+}

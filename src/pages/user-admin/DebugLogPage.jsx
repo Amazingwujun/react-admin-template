@@ -95,11 +95,19 @@ function DebugLogPage() {
         const apOptions = serviceNames
             ?.filter(t => 'app-gateway' !== t)
             .map(t => {
+                const wsUrl = 'ws://' + import.meta.env.VITE_TARGET_ADDR + '/' + t + '/websocket/debug-log'
+                const wssUrl = 'wss://' + import.meta.env.VITE_TARGET_ADDR + '/' + t + '/websocket/debug-log'
                 return {
-                    label: <span style={{fontFamily: 'Cascadia Mono', fontSize: 14, fontWeight: 500}}>{t.toUpperCase()}</span>,
+                    label: <span className='general-font'>{t.toUpperCase()}</span>,
                     options: [
-                        {value: 'ws://' + import.meta.env.VITE_TARGET_ADDR + '/' + t + '/websocket/debug-log'},
-                        {value: 'wss://' + import.meta.env.VITE_TARGET_ADDR + '/' + t + '/websocket/debug-log'}
+                        {
+                            value: wsUrl,
+                            label: <span className='general-font'>{wsUrl}</span>
+                        },
+                        {
+                            value: wssUrl,
+                            label: <span className='general-font'>{wssUrl}</span>
+                        }
                     ]
                 }
             })
@@ -114,7 +122,7 @@ function DebugLogPage() {
                     onChange={t => setUrl(t)}
                     onSelect={(text) => setUrl(text)}
                     onClear={() => setUrl('')}
-                    style={{width: 500}}
+                    style={{width: 500, fontFamily: 'Cascadia Mono'}}
                 />
                 <Button type='primary' onClick={connect}>发起连接</Button>
                 <Button type='primary' onClick={disconnect}>断开连接</Button>

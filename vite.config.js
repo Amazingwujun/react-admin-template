@@ -7,11 +7,11 @@ export default defineConfig({
     server: {
         proxy: {
             '/user-admin': {
-                target: 'http://192.168.32.35:18988',
+                target: 'http://192.168.32.63',
                 changeOrigin: true
             },
             '/lampblack-portal': {
-                target: 'http://192.168.32.35:18988',
+                target: 'http://192.168.32.63',
                 changeOrigin: true
             }
         }
