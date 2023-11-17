@@ -40,7 +40,7 @@ function DeptPage() {
     recursiveRemoveEmptyChildren(data);
 
     return (
-        <CardX title='部门管理'>
+        <CardX left='部门管理'>
             <div style={{marginBottom: 10, display: "flex", justifyContent: 'flex-end'}}>
                 <Space align='center'>
                     <Button type='primary' onClick={refresh}>刷新</Button>

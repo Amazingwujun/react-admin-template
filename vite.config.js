@@ -7,11 +7,11 @@ export default defineConfig({
     server: {
         proxy: {
             '/user-admin': {
-                target: 'https://lampblack.lewinsmarteye.com:61000',
+                target: 'http://192.168.32.63',
                 changeOrigin: true
             },
             '/lampblack-portal': {
-                target: 'https://lampblack.lewinsmarteye.com:61000',
+                target: 'http://192.168.32.63',
                 changeOrigin: true
             },
             '/apk': {
