@@ -176,7 +176,7 @@ function DeviceDataPage() {
     }
 
     return (
-        <CardX title={`${location.state} / ${deviceMn}`}>
+        <CardX left={`${location.state} / ${deviceMn}`}>
             <div style={{display: "flex", justifyContent: 'space-between', height: 56}}>
                 <Space align='center'>
                     <span style={{fontSize: 18}}> 数据加载进度: </span>

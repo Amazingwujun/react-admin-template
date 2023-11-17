@@ -1,12 +1,20 @@
 #root {
-  height: 100%;
-  width: 100%;
-  padding: 0;
-  margin: 0;
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    margin: 0;
 }
 
 .full-container {
-  height: 100%;
-  width: 100%;
-  margin: 0;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+}
+
+.global-float-btn {
+  opacity: 0.3;
+}
+
+.global-float-btn:hover {
+    opacity: 1;
 }

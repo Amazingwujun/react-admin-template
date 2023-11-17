@@ -30,7 +30,7 @@ function Main() {
                 <Flex className='full-container'
                       style={{minWidth: 0, padding: '15px 20px'}}
                       justify='center' align='center'><Outlet/></Flex>
-                <FloatButton tooltip={doc()} icon={collapsed ? <MenuUnfoldOutlined/> : <MenuFoldOutlined/>}
+                <FloatButton className='global-float-btn' tooltip={doc()} icon={collapsed ? <MenuUnfoldOutlined/> : <MenuFoldOutlined/>}
                              onClick={() => updateCollapsed()}/>
             </Flex>
         </Flex>

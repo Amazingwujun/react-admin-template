@@ -10,7 +10,7 @@ const HEADER_STYLE = {
     padding: '0px 24px',
 }
 
-function CardX({title, ref, bodyDirection = 'column', extra, children}) {
+function CardX({left, center, right, ref, bodyDirection = 'column', children}) {
     return (
         <div ref={ref} className='full-container'
              style={{display: "flex", flexDirection: 'column', background: '#ffffff', borderRadius: 2}}>
@@ -18,10 +18,13 @@ function CardX({title, ref, bodyDirection = 'column', extra, children}) {
                 style={HEADER_STYLE}
             >
                 <div>
-                    {title}
+                    {left}
                 </div>
                 <div>
-                    {extra}
+                    {center}
+                </div>
+                <div>
+                    {right}
                 </div>
             </div>
             <Divider style={{margin: 0}}/>

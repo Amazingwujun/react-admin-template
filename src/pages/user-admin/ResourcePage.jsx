@@ -89,7 +89,7 @@ function ResourcePage() {
     recursiveRemoveEmptyChildren(data);
 
     return (
-        <CardX title='资源管理'>
+        <CardX left='资源管理'>
             <div style={{marginBottom: 10}}>
                 <Space>
                     <Button icon={<SearchOutlined/>} type='primary' onClick={refresh}>刷新</Button>

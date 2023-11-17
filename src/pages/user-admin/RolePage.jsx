@@ -49,7 +49,7 @@ function RolePage() {
     });
 
     return (
-        <CardX title='角色管理'>
+        <CardX left='角色管理'>
             <div style={{marginBottom: 10}}>
                 <Button type='primary' onClick={refresh}>刷新</Button>
             </div>
