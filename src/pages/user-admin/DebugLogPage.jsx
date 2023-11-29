@@ -42,6 +42,7 @@ function statusColor(readyState) {
 
 function DebugLogPage() {
     const ref = useRef();
+    const heartbeatRef = useRef();
     const userInfo = repository.get(USER_INFO_KEY);
     const [autoScrollToBottom, setAutoScrollToBottom] = useState(true);
     const [url, setUrl] = useState('');
@@ -62,16 +63,26 @@ function DebugLogPage() {
         `${url}?x-token=${token}`, {
             manual: true,
             reconnectLimit: 2,
-            onOpen: () => {
+            onOpen: (event, instance) => {
                 message.success("连接成功")
+                // 开启心跳
+                heartbeatRef.current = setInterval(() => {
+                    instance.send("ping")
+                }, 30 * 1000);
             },
             onMessage: message => {
-                setMessages(t => t.concat(message.data))
+                if ("pong" === message.data) {
+                    // 过滤掉心跳
+                    return
+                }
+                setMessages(t => t.concat(message.data));
             },
             onClose: event => {
                 console.log(event)
                 message.warning("连接已断开")
                 setMessages(t => t.concat(`连接已断开, 原因: [${event?.reason}]\r\n`))
+                // 关闭心跳
+                clearInterval(heartbeatRef.current)
             }
         }
     );
