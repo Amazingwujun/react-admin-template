@@ -1,4 +1,4 @@
-import {ProfileOutlined, ToolOutlined, UserOutlined, WindowsOutlined} from '@ant-design/icons';
+import {FormOutlined, ProfileOutlined, ToolOutlined, UserOutlined, WindowsOutlined} from '@ant-design/icons';
 import {Menu} from 'antd';
 import useUserStore from "../store/useUserStore.js";
 import {useLocation, useNavigate} from "react-router-dom";
@@ -29,6 +29,7 @@ const items = [
         getItem('应用日志', '/admin/debugLog'),
     ]),
     {type: 'divider'},
+    getItem('表单上传', '/formUpload', <FormOutlined/>),
     getItem('测试页面', '/test', <ToolOutlined/>)
 ];
 

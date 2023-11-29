@@ -10,6 +10,9 @@ const HEADER_STYLE = {
     padding: '0px 24px',
 }
 
+/**
+ * 自定义的卡片组件，对比 antd 提供的 card, 最大的区别在于 body 是撑开(height, width 100%)的
+ */
 function CardX({left, center, right, ref, bodyDirection = 'column', children}) {
     return (
         <div ref={ref} className='full-container'
@@ -34,5 +37,6 @@ function CardX({left, center, right, ref, bodyDirection = 'column', children}) {
         </div>
     )
 }
+
 
 export default CardX;

@@ -1,4 +1,4 @@
-import {Button, Card, Image, Modal, Space, Table} from "antd";
+import {Button, Card, Image, Modal, Space, Table, Tag} from "antd";
 import React, {useCallback, useState} from "react";
 import {useRequest} from "ahooks";
 import {page} from "../../client/lampblack/restaurant.js";
@@ -20,6 +20,14 @@ const columns = [
         dataIndex: 'name',
     },
     {
+        title: '门头照片',
+        dataIndex: 'photoUrl',
+        width: 80,
+        render: text => {
+            return <Image width='50px' height='50px' src={text}/>
+        }
+    },
+    {
         title: '部门 ID',
         dataIndex: 'deptId',
         ellipsis: true,
@@ -32,6 +40,22 @@ const columns = [
     {
         title: '占地面积',
         dataIndex: 'acreage',
+        render: text => {
+            switch (text) {
+                case 0: {
+                    return <Tag color="success">0-100平米</Tag>
+                }
+                case 1: {
+                    return <Tag color="processing">100-500平米</Tag>
+                }
+                case 2: {
+                    return <Tag color="warning">500平米以上</Tag>
+                }
+                default: {
+                    return text;
+                }
+            }
+        }
     },
     {
         title: '街道地址',
@@ -56,13 +80,6 @@ const columns = [
         title: '菜系',
         render: (record) => {
             console.log(record)
-        }
-    },
-    {
-        title: '门头照片',
-        dataIndex: 'photoUrl',
-        render: text => {
-            return <Image width='50px' height='50px' src={text}/>
         }
     },
     {
@@ -135,7 +152,7 @@ function RestaurantPage() {
             <Modal open={open} onCancel={() => setOpen(false)} destroyOnClose={true}>
                 <Map  center={{lng: record.longitude, lat: record.latitude}} zoom="13"
                      enableDragging
-                      enableScrollWheelZoom={false}
+                      enableScrollWheelZoom={true}
                       enableDoubleClickZoom={false}
                 >
                     <Marker position={{lng: record.longitude, lat: record.latitude}}/>

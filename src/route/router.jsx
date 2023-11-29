@@ -13,6 +13,7 @@ import RestaurantPage from "../pages/lampblack/RestaurantPage.jsx";
 import DebugLogPage from "../pages/user-admin/DebugLogPage.jsx";
 import DeptPage from "../pages/user-admin/DeptPage.jsx";
 import RolePage from "../pages/user-admin/RolePage.jsx";
+import FormUploadPage from "../pages/FormUploadPage.jsx";
 
 const router = [
     {
@@ -22,7 +23,7 @@ const router = [
         children: [
             {
                 index: true,
-                element: <DeviceMapPage/>
+                element: <UserPage/>
             },
             {
                 path: '/device',
@@ -77,6 +78,10 @@ const router = [
                         element: <DebugLogPage/>
                     }
                 ]
+            },
+            {
+                path: '/formUpload',
+                element: <FormUploadPage/>
             },
             {
                 path: '/test',

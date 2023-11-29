@@ -55,7 +55,12 @@ const columns = [
         title: '操作',
         key: 'action',
         render: (text, record, index) => {
-            return <Button danger size='small' onClick={() => console.log(text, record, index)}>删除</Button>
+            return (
+                <Space>
+                    <Button size='small' onClick={() => console.log(text, record, index)}>更新</Button>
+                    <Button danger size='small' onClick={() => console.log(text, record, index)}>删除</Button>
+                </Space>
+            )
         }
     }
 ]

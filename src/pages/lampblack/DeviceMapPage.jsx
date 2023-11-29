@@ -31,7 +31,7 @@ function DeviceMapPage() {
         onSuccess: data => {
             // 特别注意，如果两个 icon 不同，那么marker 可能会出现多个 icon
             let offlineIcon = new BMapGL.Icon(offlineSvg, {width: 26, height: 26});
-            let onlineIcon = new BMapGL.Icon(onlineSvg, {width: 28, height: 32});
+            let onlineIcon = new BMapGL.Icon(onlineSvg, {width: 28, height: 30});
             for (const item of data) {
                 const point = new BMapGL.Point(item.longitude, item.latitude);
                 let marker;
@@ -57,7 +57,7 @@ function DeviceMapPage() {
                     width={300}
                     height={100}
                 >
-                    <Divider style={{marginTop: 0}}/>
+                    <Divider style={{marginTop: 0, marginRight: 100}}/>
                     <Space>
                         <Button type='primary' icon={<WindowsOutlined/>}>测试按钮</Button>
                         <Tag

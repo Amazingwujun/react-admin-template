@@ -11,7 +11,7 @@ export default defineConfig({
                 changeOrigin: true
             },
             '/lampblack-portal': {
-                target: 'http://192.168.32.63',
+                target: 'https://lampblack.lewinsmarteye.com:61000',
                 changeOrigin: true
             },
             '/apk': {
