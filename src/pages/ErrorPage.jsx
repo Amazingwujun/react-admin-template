@@ -11,7 +11,7 @@ function ErrorPage() {
             status={error.status}
             subTitle={error.data}
             extra={<Button type='primary' style={{minWidth: 250, height: 40}}
-                           onClick={() => navigate('/')}>回到主页</Button>}
+                           onClick={() => navigate('/general-template')}>回到主页</Button>}
         />
     )
 }

@@ -77,7 +77,7 @@ function ByPasswd() {
             updateAuthState(true);
 
             // 跳转
-            navigate("/")
+            navigate("/general-template")
         }
     })
 

@@ -22,76 +22,81 @@ const router = [
         errorElement: <ErrorPage/>,
         children: [
             {
-                index: true,
-                element: <UserPage/>
-            },
-            {
-                path: '/device',
+                path: '/general-template',
                 children: [
                     {
-                        path: '/device/info',
-                        element: <DevicePage/>
-                    },
-                    {
-                        path: '/device/:deviceMn',
-                        element: <DeviceDataPage/>
-                    },
-                    {
-                        path: '/device/map',
-                        element: <DeviceMapPage/>
-                    },
-                ]
-            },
-            {
-                path: '/restaurant/info',
-                element: <RestaurantPage/>
-            },
-            {
-                path: '/admin',
-                children: [
-                    {
-                        path: '/admin/user',
+                        index: true,
                         element: <UserPage/>
                     },
                     {
-                        path: '/admin/role',
-                        element: <RolePage/>
+                        path: '/general-template/device',
+                        children: [
+                            {
+                                path: '/general-template/device/info',
+                                element: <DevicePage/>
+                            },
+                            {
+                                path: '/general-template/device/:deviceMn',
+                                element: <DeviceDataPage/>
+                            },
+                            {
+                                path: '/general-template/device/map',
+                                element: <DeviceMapPage/>
+                            },
+                        ]
                     },
                     {
-                        path: '/admin/tenant',
-                        element: <TenantPage/>
+                        path: '/general-template/restaurant/info',
+                        element: <RestaurantPage/>
                     },
                     {
-                        path: '/admin/dept',
-                        element: <DeptPage/>
+                        path: '/general-template/admin',
+                        children: [
+                            {
+                                path: '/general-template/admin/user',
+                                element: <UserPage/>
+                            },
+                            {
+                                path: '/general-template/admin/role',
+                                element: <RolePage/>
+                            },
+                            {
+                                path: '/general-template/admin/tenant',
+                                element: <TenantPage/>
+                            },
+                            {
+                                path: '/general-template/admin/dept',
+                                element: <DeptPage/>
+                            },
+                            {
+                                path: '/general-template/admin/resource',
+                                element: <ResourcePage/>
+                            },
+                            {
+                                path: '/general-template/admin/auditLog',
+                                element: <AuditLogPage/>
+                            },
+                            {
+                                path: '/general-template/admin/debugLog',
+                                element: <DebugLogPage/>
+                            }
+                        ]
                     },
                     {
-                        path: '/admin/resource',
-                        element: <ResourcePage/>
+                        path: '/general-template/formUpload',
+                        element: <FormUploadPage/>
                     },
                     {
-                        path: '/admin/auditLog',
-                        element: <AuditLogPage/>
-                    },
-                    {
-                        path: '/admin/debugLog',
-                        element: <DebugLogPage/>
+                        path: '/general-template/test',
+                        element: <TestPage/>
                     }
                 ]
             },
             {
-                path: '/formUpload',
-                element: <FormUploadPage/>
-            },
-            {
-                path: '/test',
-                element: <TestPage/>
+                path: '/general-template/signIn',
+                element: <SignInPage/>
             }
         ]
-    },
-    {
-        path: '/signIn',
-        element: <SignInPage/>
     }
 ];
 

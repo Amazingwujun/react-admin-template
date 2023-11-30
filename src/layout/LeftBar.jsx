@@ -14,23 +14,23 @@ function getItem(label, key, icon, children, type) {
 }
 
 const items = [
-    getItem('设备中心', '/device-center', <ProfileOutlined/>, [
-        getItem('设备列表', '/device/info'),
-        getItem('实时地图', '/device/map'),
+    getItem('设备中心', '/general-template/device-center', <ProfileOutlined/>, [
+        getItem('设备列表', '/general-template/device/info'),
+        getItem('实时地图', '/general-template/device/map'),
     ]),
-    getItem('餐厅', '/restaurant/info', <WindowsOutlined/>),
-    getItem('用户中心', '/user-center', <UserOutlined/>, [
-        getItem('租户管理', '/admin/tenant'),
-        getItem('部门管理', '/admin/dept'),
-        getItem('用户管理', '/admin/user'),
-        getItem('角色管理', '/admin/role'),
-        getItem('资源管理', '/admin/resource'),
-        getItem('审计日志', '/admin/auditLog'),
-        getItem('应用日志', '/admin/debugLog'),
+    getItem('餐厅', '/general-template/restaurant/info', <WindowsOutlined/>),
+    getItem('用户中心', '/general-template/user-center', <UserOutlined/>, [
+        getItem('租户管理', '/general-template/admin/tenant'),
+        getItem('部门管理', '/general-template/admin/dept'),
+        getItem('用户管理', '/general-template/admin/user'),
+        getItem('角色管理', '/general-template/admin/role'),
+        getItem('资源管理', '/general-template/admin/resource'),
+        getItem('审计日志', '/general-template/admin/auditLog'),
+        getItem('应用日志', '/general-template/admin/debugLog'),
     ]),
     {type: 'divider'},
-    getItem('表单上传', '/formUpload', <FormOutlined/>),
-    getItem('测试页面', '/test', <ToolOutlined/>)
+    getItem('表单上传', '/general-template/formUpload', <FormOutlined/>),
+    getItem('测试页面', '/general-template/test', <ToolOutlined/>)
 ];
 
 function LeftBar() {

@@ -17,7 +17,7 @@ export function COMMON_ERR_HANDLE(err, navigate, updateAuthState) {
     if (err?.code && INVALID_TOKENS.has(err.code)) {
         repository.remove(USER_INFO_KEY);
         updateAuthState(false);
-        navigate('/signIn');
+        navigate('/general-template/signIn');
     }
 }
 
