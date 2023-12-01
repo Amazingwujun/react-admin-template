@@ -56,6 +56,7 @@ client.interceptors.response.use(
             msg = '请求超时'
         } else {
             msg = '接口请求异常'
+            console.error(error)
         }
 
         message.error(msg);

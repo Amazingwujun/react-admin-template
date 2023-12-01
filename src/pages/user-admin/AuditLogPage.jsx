@@ -79,15 +79,6 @@ const columns = [
         dataIndex: 'createAt',
         ellipsis: true,
         width: 150
-    },
-    {
-        title: '操作',
-        key: 'action',
-        fixed: 'right',
-        width: 100,
-        render: (text, record, index) => {
-            return <Button danger size='small' onClick={() => console.log(text, record, index)}>删除</Button>
-        }
     }
 ]
 

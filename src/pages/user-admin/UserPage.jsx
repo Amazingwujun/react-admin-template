@@ -1,69 +1,72 @@
-import {Button, Card, Divider, Flex, Input, Space, Table} from "antd";
+import {Button, Card, Divider, Flex, Form, Input, Modal, Space, Table} from "antd";
 import useUserStore from "../../store/useUserStore.js";
-import {page} from "../../client/user-admin/user.js";
+import {create, del, page, update} from "../../client/user-admin/user.js";
 import {useRequest} from "ahooks";
 import {useState} from "react";
 import {COMMON_ERR_HANDLE} from "../../client/client.js";
 import {useNavigate} from "react-router-dom";
-import {inputValueTrim} from "../../utils/common-utils.js";
+import {inputValueTrim, makeCurMethod} from "../../utils/common-utils.js";
 
-const columns = [
-    {
-        title: 'ID',
-        dataIndex: 'id',
-        key: 'id',
-        ellipsis: true,
-    },
-    {
-        title: '租户 ID',
-        dataIndex: 'tenantId',
-        key: 'tenantId',
-        ellipsis: true,
-    },
-    {
-        title: '部门 ID',
-        dataIndex: 'deptId',
-        key: 'deptId',
-        ellipsis: true,
-    },
-    {
-        title: '账号(名称)',
-        dataIndex: 'username',
-        key: 'username',
-    },
-    {
-        title: '昵称',
-        dataIndex: 'nickname',
-        key: 'nickname',
-    },
-    {
-        title: '部门名称',
-        dataIndex: 'deptName',
-        key: 'deptName'
-    },
-    {
-        title: '手机号',
-        dataIndex: 'mobile',
-        key: 'mobile'
-    },
-    {
-        title: '创建时间',
-        dataIndex: 'createAt',
-        key: 'createAt'
-    },
-    {
-        title: '操作',
-        key: 'action',
-        render: (text, record, index) => {
-            return (
-                <Space>
-                    <Button size='small' onClick={() => console.log(text, record, index)}>更新</Button>
-                    <Button danger size='small' onClick={() => console.log(text, record, index)}>删除</Button>
-                </Space>
-            )
+
+function makeColumns(runDelete, runUpdate) {
+    return [
+        {
+            title: 'ID',
+            dataIndex: 'id',
+            key: 'id',
+            ellipsis: true,
+        },
+        {
+            title: '租户 ID',
+            dataIndex: 'tenantId',
+            key: 'tenantId',
+            ellipsis: true,
+        },
+        {
+            title: '部门 ID',
+            dataIndex: 'deptId',
+            key: 'deptId',
+            ellipsis: true,
+        },
+        {
+            title: '账号(名称)',
+            dataIndex: 'username',
+            key: 'username',
+        },
+        {
+            title: '昵称',
+            dataIndex: 'nickname',
+            key: 'nickname',
+        },
+        {
+            title: '部门名称',
+            dataIndex: 'deptName',
+            key: 'deptName'
+        },
+        {
+            title: '手机号',
+            dataIndex: 'mobile',
+            key: 'mobile'
+        },
+        {
+            title: '创建时间',
+            dataIndex: 'createAt',
+            key: 'createAt'
+        },
+        {
+            title: '操作',
+            key: 'action',
+            render: (record) => {
+                return (
+                    <Space>
+                        <Button size='small' onClick={() => runUpdate(record)}>更新</Button>
+                        <Button danger size='small' onClick={() => runDelete({id: record.id})}>删除</Button>
+                    </Space>
+                )
+            }
         }
-    }
-]
+    ]
+}
 
 
 const defaultPageParams = {
@@ -72,22 +75,47 @@ const defaultPageParams = {
 
 function UserPage() {
     const [uname, setUname] = useState(null);
+    const [isModalOpen, setModalOpen] = useState(false)
     const updateAuthState = useUserStore(t => t.updateAuthState)
     const navigate = useNavigate();
+    const [form] = Form.useForm()
 
-    const {data, error, loading, run: runPage} = useRequest(page, {
+    // 分页获取
+    const {data, error, loading, run: runPage, refresh} = useRequest(page, {
         defaultParams: [defaultPageParams],
         onError: err => COMMON_ERR_HANDLE(err, navigate, updateAuthState)
     });
 
+    // 增删改
+    const {runCreate, runDelete, runUpdate} = makeCurMethod(create, del, update,
+        () => {
+            refresh()
+            setModalOpen(false)
+        },
+        err => COMMON_ERR_HANDLE(err, navigate, updateAuthState)
+    )
+
+    // 列表配置
+    const columns = makeColumns(runDelete, runUpdate);
+
+
+    function createUser() {
+        setModalOpen(true)
+    }
+
     return (
         <Card title='用户管理' className='full-container'>
             <Flex vertical>
-                <Space>
-                    <Input placeholder='用户名' onChange={e => setUname(inputValueTrim(e))}/>
-                    <Button type={"primary"}
-                            onClick={() => runPage({...defaultPageParams, username: uname})}>提交</Button>
-                </Space>
+                <Flex justify='space-between'>
+                    <Space>
+                        <Input placeholder='用户名' onChange={e => setUname(inputValueTrim(e))}/>
+                        <Button type={"primary"}
+                                onClick={() => runPage({...defaultPageParams, username: uname})}>提交</Button>
+                    </Space>
+                    <Space>
+                        <Button type='primary' onClick={createUser}>新增用户</Button>
+                    </Space>
+                </Flex>
                 <Divider/>
                 <Table
                     size='small'
@@ -108,6 +136,49 @@ function UserPage() {
                     dataSource={data?.list}
                 />
             </Flex>
+            <Modal title='创建用户' open={isModalOpen} onCancel={() => {
+                console.log('onCancel invoked')
+                setModalOpen(false)
+            }}>
+                <Form
+                    name='basic'
+                    form={form}
+                    labelCol={{
+                        span: 8,
+                    }}
+                    wrapperCol={{
+                        span: 16,
+                    }}
+                    style={{
+                        maxWidth: 600,
+                    }}
+                >
+                    <Form.Item
+                        label="用户名"
+                        name="username"
+                        rules={[
+                            {
+                                required: true,
+                                message: '请输入用户名',
+                            },
+                        ]}
+                    >
+                        <Input/>
+                    </Form.Item>
+                    <Form.Item
+                        label="密码"
+                        name="password"
+                        rules={[
+                            {
+                                required: true,
+                                message: '请输入密码',
+                            },
+                        ]}
+                    >
+                        <Input.Password/>
+                    </Form.Item>
+                </Form>
+            </Modal>
         </Card>
     )
 }

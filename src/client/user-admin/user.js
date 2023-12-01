@@ -44,3 +44,28 @@ export function page(req) {
         data: req
     })
 }
+
+export function create(req) {
+    return client({
+        url: '/user-admin/user/create',
+        method: 'POST',
+        data: req
+    })
+}
+
+export function del(req) {
+    return client({
+        url: '/user-admin/user/delete',
+        method: 'POST',
+        data: req
+    })
+}
+
+export function update(req) {
+    return client({
+        url: '/user-admin/user/update',
+        method: 'POST',
+        data: req
+    })
+}
+
